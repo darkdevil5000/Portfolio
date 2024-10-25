@@ -1,0 +1,120 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-button {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: white;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    transition: transform 0.3s ease;
+}
+
+.profile-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.top-options, .bottom-options, .left-option {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.top-options li, .bottom-options li {
+    margin: 10px 0;
+}
+
+.left-option {
+    position: absolute;
+    left: -50px; /* Adjust as needed */
+}
+
+.top-options li a, .bottom-options li a, .left-option li a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.top-options li a:hover, .bottom-options li a:hover, .left-option li a:hover {
+    color: lightgray;
+}
+
+.socials {
+    margin-top: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.show-socials {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.profile-button.active {
+    transform: scale(1.1);
+}
+
+.socials ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.socials ul li {
+    margin: 5px 0;
+}
+
+.socials ul li a {
+    color: lightgray;
+    font-size: 18px;
+}
+
+.socials ul li a:hover {
+    color: white;
+}
+
+
+.body h1 {
+    font-size: 40px;
+    justify-content: center;
+    background-color: aliceblue;
+    display: flex;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+}

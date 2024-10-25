@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: all 0.3s ease;
+        }
+        .title {
+            font-size: 48px;
+            font-weight: bolder;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            
+        }
+        .profile-pic {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .profile-pic:hover {
+            transform: scale(1.1);
+        }
+        .tap-text {
+            font-size: 18px;
+            font-weight: bolder;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .dropdown {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .dropdown a {
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bolder;
+            transition: all 0.3s ease;
+        }
+        .dropdown a:hover {
+            color: grey;
+        }
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: black;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bolder;
+            transition: all 0.3s ease;
+        }
+        .toggle-button:hover {
+            background-color: #333;
+        }
+        .light-mode {
+            background-color: white;
+            color: black;
+        }
+        .light-mode .title {
+            color: black;
+        }
+        .light-mode .dropdown a {
+            color: black;
+        }
+        .dark-mode {
+            background-color: black;
+            color: white;
+        }
+        .dark-mode .title {
+            color: white;
+        }
+        .dark-mode .dropdown a {
+            color: white;
+        }
+        .music-controls {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        .music-controls button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bolder;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        .music-controls button:hover {
+            color: grey;
+        }
+
+        /* Modal container */
+        .social-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        .social-modal a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        .social-modal a:hover {
+            color: grey;
+        }
+        .light-mode .social-modal {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        .light-mode .social-modal a {
+            color: black;
+        }
+        .light-mode .social-modal a:hover {
+            color: grey;
+        }
+
+        /* Responsive Modal */
+        @media (max-width: 600px) {
+            .social-modal {
+                width: 90%;
+            }
+        }
+
+        /* Social button */
+        .social-button {
+            padding: 10px 20px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .social-button:hover {
+            background-color: #333;
+        }
+        .light-mode .social-button {
+            background-color: white;
+            color: black;
+            border: 2px solid black;
+        }
+        .light-mode .social-button:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script>
+        var audio;
+
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdown");
+            var tapText = document.getElementById("tapText");
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "flex";
+                tapText.style.display = "none";
+            } else {
+                dropdown.style.display = "none";
+                tapText.style.display = "block";
+            }
+        }
+
+        function toggleMode() {
+            var body = document.body;
+            var button = document.getElementById("toggleButton");
+            if (body.classList.contains("light-mode")) {
+                body.classList.remove("light-mode");
+                body.classList.add("dark-mode");
+                button.textContent = "Light Mode";
+            } else {
+                body.classList.remove("dark-mode");
+                body.classList.add("light-mode");
+                button.textContent = "Dark Mode";
+            }
+        }
+
+        function toggleSocialModal() {
+            var modal = document.getElementById("socialModal");
+            if (modal.style.display === "none" || modal.style.display === "") {
+                modal.style.display = "flex";
+            } else {
+                modal.style.display = "none";
+            }
+        }
+
+        function playMusic() {
+            audio.play();
+            document.getElementById("playButton").style.display = "none";
+            document.getElementById("pauseButton").style.display = "inline";
+        }
+
+        function pauseMusic() {
+            audio.pause();
+            document.getElementById("playButton").style.display = "inline";
+            document.getElementById("pauseButton").style.display = "none";
+        }
+
+        window.onload = function() {
+            audio = new Audio('song.mp3');
+            audio.play();
+            setTimeout(function() {
+                audio.pause();
+            }, 30000); // 30 seconds
+        }
+    </script>
+</head>
+<body class="light-mode">
+    <button class="toggle-button" id="toggleButton" onclick="toggleMode()">Dark Mode</button>
+    <div class="container">
+        <div class="title">
+            Welcome to
+        </div>
+        <div class="title">
+            Dark Devil's Portfolio.
+        </div>
+        <img alt="Profile picture of a person taking a selfie in a mirror" class="profile-pic" height="200" src="ankur.png" width="200" onclick="toggleDropdown()"/>
+        <div class="tap-text" id="tapText">
+            Tap on the Picture for more!
+        </div>
+        <div class="dropdown" id="dropdown">
+            <a href="#">About Me</a>
+            <a href="#">Education</a>
+            <a href="#">Experience</a>
+            <a href="#">Projects</a>
+            <button class="social-button" id="socialButton" onclick="toggleSocialModal()">Social</button>
+        </div>
+
+        <!-- Social Modal -->
+        <div class="social-modal" id="socialModal">
+            <button class="close-btn" onclick="toggleSocialModal()">&#10006;</button>
+            <a href="www.linkedin.com/in/ankur-sutradhar-57841125b" target="_blank">LinkedIn</a>
+            <a href="https://github.com/darkdevil5000" target="_blank">GitHub</a>
+            <a href="https://x.com/DarkDev78490148?t=TDreYQuJWFVruA4f3ImO0g&s=09" target="_blank">Twitter</a>
+            <a href="https://instagram.com/ankuur.since.2004" target="_blank">Instagram</a>
+        </div>
+
+        <div class="music-controls">
+            <button id="playButton" onclick="playMusic()" style="display: none;">&#9658;</button>
+            <button id="pauseButton" onclick="pauseMusic()">&#10074;&#10074;</button>
+        </div>
+    </div>
+</body>
+</html>
